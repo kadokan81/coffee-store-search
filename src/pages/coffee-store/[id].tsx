@@ -113,7 +113,13 @@ const CoffeeStore = (initialProps: CoffeeStoreType) => {
 			// SSG
 			handleCreateCoffeeStore(coffeeStore);
 		}
-	}, [shopId, initialProps.coffeeStore, coffeeStores]);
+	}, [
+		shopId,
+		initialProps.coffeeStore,
+		coffeeStores,
+		coffeeStore,
+		handleCreateCoffeeStore,
+	]);
 
 	const [votingCount, setVotingCount] = useState(0);
 
@@ -221,8 +227,10 @@ const CoffeeStore = (initialProps: CoffeeStoreType) => {
 								height='24'
 								alt='near me icon'
 							/>
-							{coffeeStore.location.neighborhood.map((n) => (
-								<div className={styles.text}>n</div>
+							{coffeeStore.location.neighborhood.map((n, ind) => (
+								<div key={ind} className={styles.text}>
+									n
+								</div>
 							))}
 						</div>
 					)}

@@ -65,7 +65,7 @@ const Home = ({ serverCoffeeStores }: HomePageTypes): JSX.Element => {
 		if (latLong) {
 			FetchCoffeeStoreHandler();
 		}
-	}, [latLong]);
+	}, [latLong, dispatch]);
 
 	// console.log({ locationErrorMsg, latLong });
 
