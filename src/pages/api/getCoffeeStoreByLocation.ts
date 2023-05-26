@@ -4,8 +4,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 // http://localhost:3000/api/getCoffeeStoreByLocation?latLong=43.6538,-79.3789&limit=6
 
+export interface GetCoffeeTypeReq extends NextApiRequest {
+	query: {
+		latLong: string;
+		limit: string;
+	};
+}
+
 const getCoffeeStoreByLocation = async (
-	req: NextApiRequest,
+	req: GetCoffeeTypeReq,
 	res: NextApiResponse
 ) => {
 	try {
@@ -13,7 +20,7 @@ const getCoffeeStoreByLocation = async (
 
 		const results = (await fetchCoffeeStores(
 			latLong,
-			limit
+			+limit
 		)) as CoffeeShopsResult[];
 
 		res.status(200);
