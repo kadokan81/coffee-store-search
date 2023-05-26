@@ -9,7 +9,7 @@ import cls from 'classnames';
 import { fetchCoffeeStores } from '@/lib/coffee-store-search';
 
 import { CoffeeShopsResult } from '@/typesFolder';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StoreContext } from '../_app';
 import useSWR from 'swr';
 import { fetcher } from '@/utils';
@@ -72,30 +72,34 @@ const CoffeeStore = (initialProps: CoffeeStoreType) => {
 
 	const shopId = router.query.id;
 
-	const handleCreateCoffeeStore = async (coffeeStore: any) => {
-		try {
-			const { id, name, voting, imgUrl, neighbourhood, address } = coffeeStore;
-			const response = await fetch('/api/createCoffeeStore', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					id: initialProps.coffeeStore.fsq_id,
-					name: initialProps.coffeeStore.name,
-					voting: 0,
-					imgUrl: initialProps.coffeeStore.imgUrl,
-					neighbourhood: 'neighbourhood' || '',
-					address: initialProps.coffeeStore.location.address,
-				}),
-			});
+	const handleCreateCoffeeStore = useCallback(
+		async (coffeeStore: any) => {
+			try {
+				const { id, name, voting, imgUrl, neighbourhood, address } =
+					coffeeStore;
+				const response = await fetch('/api/createCoffeeStore', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						id: initialProps.coffeeStore.fsq_id,
+						name: initialProps.coffeeStore.name,
+						voting: 0,
+						imgUrl: initialProps.coffeeStore.imgUrl,
+						neighbourhood: 'neighbourhood' || '',
+						address: initialProps.coffeeStore.location.address,
+					}),
+				});
 
-			const dbCoffeeStore = await response.json();
-			// setVoting(dbCoffeeStore[0].voting);
-		} catch (err) {
-			console.error('Error creating coffee store', err);
-		}
-	};
+				const dbCoffeeStore = await response.json();
+				// setVoting(dbCoffeeStore[0].voting);
+			} catch (err) {
+				console.error('Error creating coffee store', err);
+			}
+		},
+		[coffeeStore]
+	);
 
 	useEffect(() => {
 		if (Object.keys(initialProps.coffeeStore).length === 0) {
